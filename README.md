@@ -1,6 +1,6 @@
 # Windows 10 Tweaks - 1909 Update
 
-![LOGO](README_media\LOGO.png)
+![LOGO](README_media/LOGO.png)
 
 ## Disclaimer
 
@@ -93,7 +93,7 @@ Assuming the scripts have been extracted to your Desktop... Open the start menu 
 
 ![Windows_08](README_media/Windows_08.png)
 
-Change directory into the extracted folder `cd %USERPROFILE%\Desktop\w10tweaks`. Finally run the script.
+Change directory into the extracted folder `cd %USERPROFILE%\Desktop\win10tweak`. Finally run the script.
 
 The script will take quite a while to finish, upon completion it will reboot automatically. After the reboot the last part of the script will run automatically and then remove itself.
 
