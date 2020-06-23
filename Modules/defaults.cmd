@@ -48,11 +48,7 @@ ECHO [1;36m■[1;37m Network:[0m Force Current Network to Private
 PowerShell -Command "Set-NetConnectionProfile -NetworkCategory Private | Out-Null"
 ECHO [1;36m■[1;37m Network:[0m Enable Network Browsing
 netsh advfirewall firewall set rule group="Network Discovery" new enable=Yes >nul
-ECHO [1;36m■[1;37m Network:[0m Installing NFS Client
-PowerShell -Command "Enable-WindowsOptionalFeature -Online -FeatureName NFS-Administration -All -NoRestart | Out-Null"
-PowerShell -Command "Enable-WindowsOptionalFeature -Online -FeatureName ClientForNFS-Infrastructure -All -NoRestart | Out-Null"
-reg add "HKLM\SOFTWARE\Microsoft\ClientForNFS\CurrentVersion\Default" /v "AnonymousGid" /t "REG_DWORD" /d "1000" /f >nul
-reg add "HKLM\SOFTWARE\Microsoft\ClientForNFS\CurrentVersion\Default" /v "AnonymousUid" /t "REG_DWORD" /d "1000" /f >nul
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "LocalAccountTokenFilterPolicy" /t "REG_DWORD" /d "1" /f >nul
 :: Remove Default Apps
 ECHO [1;36m■[1;37m Cleanup:[0m Default Apps
 PowerShell -Command "$Whitelist = 'Microsoft.Xbox.TCUI|Microsoft.WindowsStore|Microsoft.VCLibs*|Microsoft.UI*|Microsoft.Services.Store*|Microsoft.RemoteDesktop|Microsoft.NET.Native*|Microsoft.DesktopAppInstaller'; $NonRemovable = '1527c705-839a-4832-9118-54d4Bd6a0c89|c5e2524a-ea46-4f67-841f-6a9465d9d515|E2A4F912-2574-4A75-9BB0-0D023378592B|F46D4000-FD22-4DB4-AC8E-4E1DDDE828FE|InputApp|Microsoft.AAD.BrokerPlugin|Microsoft.AccountsControl|Microsoft.AsyncTextService|Microsoft.BioEnrollment|Microsoft.CredDialogHost|Microsoft.ECApp|Microsoft.LockApp|Microsoft.MicrosoftEdge|Microsoft.MicrosoftEdgeDevToolsClient|Microsoft.PPIProjection|Microsoft.Win32WebViewHost|Microsoft.Windows.Apprep.ChxApp|Microsoft.Windows.AssignedAccessLockApp|Microsoft.Windows.CallingShellApp|Microsoft.Windows.CapturePicker|Microsoft.Windows.CloudExperienceHost|Microsoft.Windows.ContentDeliveryManager|Microsoft.Windows.Cortana|Microsoft.Windows.NarratorQuickStart|Microsoft.Windows.OOBENetworkCaptivePortal|Microsoft.Windows.OOBENetworkConnectionFlow|Microsoft.Windows.ParentalControls|Microsoft.Windows.PeopleExperienceHost|Microsoft.Windows.PinningConfirmationDialog|Microsoft.Windows.SecHealthUI|Microsoft.Windows.SecureAssessmentBrowser|Microsoft.Windows.ShellExperienceHost|Microsoft.Windows.StartMenuExperienceHost|Microsoft.Windows.XGpuEjectDialog|Microsoft.XboxGameCallableUI|Windows.CBSPreview|windows.immersivecontrolpanel|Windows.PrintDialog'; Get-AppxPackage -AllUsers | Where-Object {$_.Name -NotMatch $Whitelist -and $_.Name -NotMatch $NonRemovable} | Remove-AppxPackage -AllUsers -ErrorAction SilentlyContinue | Out-Null; Get-AppxPackage | Where-Object {$_.Name -NotMatch $Whitelist -and $_.Name -NotMatch $NonRemovable} | Remove-AppxPackage -ErrorAction SilentlyContinue | Out-Null; Get-AppxProvisionedPackage -Online | Where-Object {$_.PackageName -NotMatch $Whitelist -and $_.PackageName -NotMatch $NonRemovable} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Out-Null" >nul
@@ -99,8 +95,8 @@ PowerShell -Command "Get-AppxPackage -Name *Royal Revolt* | Remove-AppxPackage -
 PowerShell -Command "Get-AppxPackage -Name *Dolby* | Remove-AppxPackage -WarningAction SilentlyContinue | Out-Null"
 PowerShell -Command "Get-AppxPackage -Name *TheNewYorkTimes.NYTCrossword* | Remove-AppxPackage -WarningAction SilentlyContinue | Out-Null"
 PowerShell -Command "Get-AppxPackage Microsoft.NetworkSpeedTest | Remove-AppxPackage -AllUsers -WarningAction SilentlyContinue | Out-Null"
-%~dp0..\Tools\install_wim_tweak /o /c Microsoft-Windows-ContactSupport /r >nul
-%~dp0..\Tools\install_wim_tweak /o /c Microsoft-PPIProjection-Package /r >nul
+::%~dp0..\Tools\install_wim_tweak /o /c Microsoft-Windows-ContactSupport /r >nul
+::%~dp0..\Tools\install_wim_tweak /o /c Microsoft-PPIProjection-Package /r >nul
 ::install_wim_tweak /o /c Microsoft-Windows-MediaPlayer-Package /r >nul
 PowerShell -Command "Disable-WindowsOptionalFeature -Online -FeatureName 'FaxServicesClientPackage' -NoRestart -WarningAction SilentlyContinue | Out-Null"
 PowerShell -Command "Disable-WindowsOptionalFeature -Online -FeatureName 'MediaPlayback' -NoRestart -WarningAction SilentlyContinue | Out-Null"
@@ -124,7 +120,7 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\MRT" /v "DontOfferThroughWUAU" /t "REG
 reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "SecurityHealth" /f >nul
 reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" /v "SecurityHealth" /f >nul
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\SecHealthUI.exe" /v "Debugger" /t "REG_SZ" /d "%windir%\System32\taskkill.exe" /f >nul
-%~dp0..\Tools\install_wim_tweak /o /c Windows-Defender /r >nul
+:: %~dp0..\Tools\install_wim_tweak /o /c Windows-Defender /r >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.SecurityAndMaintenance" /v "Enabled" /t "REG_DWORD" /d "0" /f >nul
 reg delete "HKLM\SYSTEM\CurrentControlSet\Services\SecurityHealthService" /f >nul
 :: Remove OneDrive
@@ -292,7 +288,7 @@ reg add "HKLM\Software\Policies\Microsoft\WindowsInkWorkspace" /v "AllowSuggeste
 ECHO [1;36m■[1;37m Install:[0m Chocolatey
 PowerShell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" >nul
 ECHO [1;36m■[1;37m Install:[0m Packages
-for %%a in (7zip autoruns ccleaner ccenhancer cpu-z.install Firefox git-fork keepassxc microsoft-windows-terminal mpv putty.install sharex simplewall speedcrunch steam windirstat winscp.install youtube-dl) do (
+for %%a in (7zip autoruns ccleaner ccenhancer chocolateygui cpu-z.install displayfusion eartrumpet Firefox foxitreader gitkraken gpu-z hashcheck hwmonitor imageglass kdiff3 keepassxc microsoft-windows-terminal mpv putty.install sharex simplewall speedcrunch steam windirstat winscp.install youtube-dl) do (
     %ProgramData%\chocolatey\bin\choco.exe install %%a -y -r >nul
 )
 PowerShell -Command "[Environment]::SetEnvironmentVariable('Path', '%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;%ProgramData%\chocolatey', 'User')"

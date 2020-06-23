@@ -53,6 +53,8 @@ When asked if you would like to receive help from Cortana choose `Decline`.
 
 Finally on the privacy settings screen, make sure you deselect every single option (scroll down for more options). Only after you have turned off all of Microsoft's tracking should you select `Accept` to complete the Windows 10 configuration.
 
+![Install_13](README_media/Install_13.png)
+
 ### Windows Update
 
 Eventually you will be able to login and will be presented with the desktop. Click on the notification icon to the right of the clock in the system tray (bottom right corner of screen). From here you will want to select `All settings`.
@@ -93,7 +95,9 @@ Assuming the scripts have been extracted to your Desktop... Open the start menu 
 
 ![Windows_08](README_media/Windows_08.png)
 
-Change directory into the extracted folder `cd %USERPROFILE%\Desktop\win10tweak`. Finally run the script.
+Change directory into the extracted folder `cd %USERPROFILE%\Desktop\win10tweak`. 
+
+Finally run the script using `main.cmd`.
 
 The script will take quite a while to finish, upon completion it will reboot automatically. After the reboot the last part of the script will run automatically and then remove itself.
 
