@@ -1,4 +1,4 @@
-# Windows 10 Tweaks - 1909 Update
+# Windows 10 Tweaks - 20H2 Update
 
 ![LOGO](README_media/LOGO.png)
 
@@ -112,6 +112,35 @@ OpenShell, which is the new version of ClassicShell should be on the desktop wit
 ![Config_02](README_media/Config_02.png)
 
 Select `OK` to save the changes.
+
+### Firewall
+
+In the Utilities section of the Start Menu is simplewall. Launch and allow it to update. In the Blacklist menu change 'Microsoft update servers' to 'Allow' then select the `Enable filters` button in the toolbar, permanently replacing Windows Firewall.
+
+Some Windows applications that will popup asking for internet access that should be allowed are as follows:
+
+* `dashost.exe`: wired/wireless device pairing
+* `explorer.exe`: typically for SMB of NFS access (network drives)
+* `Microsoft Content`: part of search
+* `Microsoft Store`: the store uwp app
+* `mstsc.exe`: remote desktop connection
+* `nvdisplay.container.exe` NVIDIA display driver
+* `sihclient.exe`: Windows update background installer
+* `spoolsv.exe`: network printing
+* `svchost.exe`: Windows service host process
+* `System`: Windows NT kernel
+* `usocoreworker.exe`: Windows update client
+
+Things to block:
+
+* `dxdiag.exe`: DirectX diagnostic
+* `msiexec.exe`: Microsoft Installer (system32 and syswow64)
+* `onedrivesetup.exe`: if you are not using OneDrive
+* `wuauclt.exe`: windows update auto check client (if you want this disabled)
+
+Past this, things to allow are at your discretion. Generally I won't allow any installers access to the internet unless they need to download the installation material. Some things will be easy to choose to allow; like a web browser or email client.
+
+When in doubt, choose the `X` instead of block and if the program fails to work, re-launch the program and choose to allow it this time.
 
 ## Attribution & References
 

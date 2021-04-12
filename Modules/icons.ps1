@@ -34,7 +34,7 @@ ATTRIB +H +S $file
 $file = "${env:USERPROFILE}\Contacts\desktop.ini"
 ATTRIB -H -S $file
 CAT $file | %{$_ -Replace "IconResource=%SystemRoot%\\system32\\imageres.dll,-181","IconResource=%ProgramData%\Windows Icons\folder-contacts.ico"} | Out-File ${file}2
-MOVE /Y "${file}2" $file
+Move-Item -Path "${file}2" -Destination "$file" -Force
 ATTRIB +H +S $file
 # Desktop
 $file = "${env:USERPROFILE}\Desktop\desktop.ini"
